@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radix Sort Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Radix Sort Simulator</h1>
+        <div class="info-container">
+            <p><strong>Nombre de integrantes:</strong> Gonzalez Nungaray Christopher Omar, Araoz Sierra Ricardo</p>
+            <p><strong>Materia:</strong> Algoritmos y Estructura de Datos</p>
+        </div>
+        <div class="input-container">
+            <label for="array-input">Enter numbers separated by commas:</label>
+            <input type="text" id="array-input" placeholder="170, 45, 75, 90, 802, 24, 2, 66">
+            <button id="sort-button">Sort</button>
+        </div>
+        <div class="output-container">
+            <h2>Original Array:</h2>
+            <p id="original-array"></p>
+            <h2>Sorted Array:</h2>
+            <p id="sorted-array"></p>
+        </div>
+        <div class="code-container">
+            <h2>JavaScript Code:</h2>
+            <pre>
+<code id="code-block">
+document.getElementById('sort-button').addEventListener('click', () => {
+    const input = document.getElementById('array-input').value;
+    const array = input.split(',').map(Number);
+    if (array.some(isNaN)) {
+        alert('Please enter a valid list of numbers separated by commas.');
+        return;
+    }
+
+    document.getElementById('original-array').textContent = array.join(', ');
+
+    radixSort(array);
+
+    document.getElementById('sorted-array').textContent = array.join(', ');
+});
+
+function obtenerMax(arr) {
+    return Math.max(...arr);
+}
+
+function contarYOrdenar(arr, exp) {
+    const n = arr.length;
+    const output = new Array(n);
+    const count = new Array(10).fill(0);
+
+    for (let i = 0; i < n; i++) {
+        count[Math.floor(arr[i] / exp) % 10]++;
+    }
+
+    for (let i = 1; i < 10; i++) {
+        count[i] += count[i - 1];
+    }
+
+    for (let i = n - 1; i >= 0; i--) {
+        output[count[Math.floor(arr[i] / exp) % 10] - 1] = arr[i];
+        count[Math.floor(arr[i] / exp) % 10]--;
+    }
+
+    for (let i = 0; i < n; i++) {
+        arr[i] = output[i];
+    }
+}
+
+function radixSort(arr) {
+    const max = obtenerMax(arr);
+    for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10) {
+        contarYOrdenar(arr, exp);
+    }
+}
+</code>
+            </pre>
+        </div>
+        <div class="link-container">
+            <h2>LINK INFO:</h2>
+            <a href="https://www.canva.com/design/DAGF8V7fGiY/Rafcw2hTwwHznW7utQ3TRQ/view?utm_content=DAGF8V7fGiY&utm_campaign=designshare&utm_medium=link&utm_source=editor" target="_blank">Canva Design Link</a>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
